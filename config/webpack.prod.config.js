@@ -1,16 +1,16 @@
-import { DefinePlugin } from 'webpack';
-import { smart } from 'webpack-merge';
+var webpack = require('webpack');
+var merge = require('webpack-merge');
 
-import baseConfig from './webpack.base.config';
-import optimizationConfig from './webpack.opt.config';
+var baseConfig = require('./webpack.base.config');
+var optimizationConfig = require('./webpack.opt.config');
 
 const productionConfiguration = function (env) {
   const NODE_ENV = env.NODE_ENV ? env.NODE_ENV : 'development';
   return {
     plugins: [
-      new DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify(NODE_ENV) }),
-    ],
+      new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify(NODE_ENV) }),
+    ]
   };
-};
+}
 
-export default smart(baseConfig, optimizationConfig, productionConfiguration);
+module.exports = merge.smart(baseConfig, optimizationConfig, productionConfiguration);
