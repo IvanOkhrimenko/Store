@@ -1,14 +1,6 @@
-import React from 'react';
-import { render } from 'react-dom';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import App from './App.jsx';
 import './styles/style.scss';
-const App = () => {
-    return (
-        <div>
-            <h3>Our Application Is Alive</h3>
-            <p>This isn’t reality. This — is fantasy.</p>
-            <p>Yes I am quoting Star Trek I cant help it.</p>
-        </div>
-    );
-}
 
-render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));

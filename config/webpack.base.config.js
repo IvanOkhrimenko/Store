@@ -5,6 +5,7 @@ module.exports = {
         rules: [
             {
                 test: /\.(js|jsx)$/,
+                use: ["source-map-loader"],
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader'
@@ -12,6 +13,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
+                use: ["source-map-loader"],
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: "css-loader!sass-loader",

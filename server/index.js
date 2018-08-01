@@ -1,20 +1,25 @@
-const express = require('express');
-const path = require('path');
-const http = require('http');
+var express = require('express'),
+    cors = require('cors'),
+    app = express(),
+    port = process.env.PORT || 3000,
+    mongoose = require('mongoose'),
+    Task = require('./models/todoListModel'),
+    bodyParser = require('body-parser');
 
-const app = express();
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/Tododb');
+app.use(cors({ origin: '*' }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-// Point static path to dist
-app.use(express.static(path.join(__dirname, '..', 'dist')));
 
-const routes = require('./routes')
-app.use('/', routes);
+var routes = require('./routes/todoListRoutes');
+routes(app);
 
-/** Get port from environment and store in Express. */
-const port = process.env.PORT || '3000';
-app.set('port', port);
+app.use(function (req, res) {
+    res.status(404).send({ url: req.originalUrl + ' not found' })
+});
 
-/** Create HTTP server. */
-const server = http.createServer(app);
-/** Listen on provided port, on all network interfaces. */
-server.listen(port, () => console.log(`Server Running on port ${port} , http://localhost:${port}`))
+app.listen(port);
+
+console.log('todo list RESTful API server started on: ' + port);
