@@ -8,9 +8,14 @@ var TaskSchema = new Schema({
     Required: true,
     default: 'name'
   },
-  last:{
-    type:String,
+  last: {
+    type: String,
     default: 'huina'
+  },
+  img: { 
+    type: String, 
+    contentType: String,
+    default:'https://cdn1.thr.com/sites/default/files/2012/12/img_logo_blue.jpg'
   },
   Created_date: {
     type: Date,

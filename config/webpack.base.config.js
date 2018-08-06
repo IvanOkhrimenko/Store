@@ -5,11 +5,17 @@ module.exports = {
         rules: [
             {
                 test: /\.(js|jsx)$/,
-                use: ["source-map-loader"],
                 exclude: /node_modules/,
+                use: ["source-map-loader"],
                 use: {
                     loader: 'babel-loader'
                 }
+            },
+            {
+                test: /\.jsx?$/,
+                loader: 'babel-loader',
+                exclude: /node_modules(?!\/webpack-dev-server)/,
+
             },
             {
                 test: /\.scss$/,
@@ -17,7 +23,7 @@ module.exports = {
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: "css-loader!sass-loader",
-                })
+                }),
             }
         ]
     },
@@ -27,5 +33,8 @@ module.exports = {
             filename: './index.html'
         }),
         new ExtractTextPlugin('style.css')
-    ]
+    ],
+    resolve: {
+        extensions: [".js", ".jsx"]
+    }
 }
