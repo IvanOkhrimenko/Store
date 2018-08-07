@@ -28,8 +28,8 @@ const SubmitValidationForm = props => {
                 label="Username"
             />
             <Field
-                name="last"
-                type="password"
+                name="price"
+                type="text"
                 component={renderField}
                 label="Password"
             />
@@ -38,6 +38,12 @@ const SubmitValidationForm = props => {
                 type="text"
                 component={renderField}
                 label="Image"
+            />
+            <Field
+                name="role"
+                type="text"
+                component={renderField}
+                label="Role"
             />
             {error &&
                 <strong>

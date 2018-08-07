@@ -4,8 +4,9 @@ const initialState = {
     goods: [],
     hasErrored: false,
     isLoading: false,
-    limit: 10,
+    limit: 8,
     searchFilter: '',
+    visibilityFilter: 'SHOW_ALL',
 };
 
 const goodsReducer = function reducer(state = initialState, action) {
@@ -52,7 +53,11 @@ const goodsReducer = function reducer(state = initialState, action) {
                 ...state,
                 searchFilter: action.searchFilter,
             };
-
+        case types.GOODS_SET_VISIBILITY_FILTER:
+            return {
+                ...state,
+                visibilityFilter: action.visibilityFilter,
+            };
         default:
             return state;
     }

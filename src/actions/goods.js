@@ -62,7 +62,12 @@ export function goodsFetchData(url) {
             });
     };
 }
-
+export function goodsSetFilter(visibilityFilter) {
+    return {
+        type: types.GOODS_SET_VISIBILITY_FILTER,
+        visibilityFilter,
+    };
+}
 export function goodsLoadMore(limit) {
     return {
         type: types.GOODS_LOAD_MORE,
@@ -73,7 +78,7 @@ export function goodsLoadMore(limit) {
 export function goodsResetLimit() {
     return {
         type: types.GOODS_RESET_LIMIT,
-        limit: 10,
+        limit: 8,
     };
 }
 

@@ -19,7 +19,10 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                use: ["source-map-loader"],
+                use: [
+                    'css-hot-loader',
+                    'css-loader',
+                ],
                 use: ExtractTextPlugin.extract({
                     fallback: "style-loader",
                     use: "css-loader!sass-loader",

@@ -6,6 +6,7 @@ export default class Main extends Component {
     render() {
         return (
             <div>
+                <h1>SLIDER</h1>
                 <h1>Главная</h1>
                 <GoodsList />
             </div>

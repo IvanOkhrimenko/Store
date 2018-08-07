@@ -8,14 +8,14 @@ var TaskSchema = new Schema({
     Required: true,
     default: 'name'
   },
-  last: {
-    type: String,
-    default: 'huina'
+  price: {
+    type: Number,
+    default: 0
   },
-  img: { 
-    type: String, 
+  img: {
+    type: String,
     contentType: String,
-    default:'https://cdn1.thr.com/sites/default/files/2012/12/img_logo_blue.jpg'
+    default: 'https://cdn1.thr.com/sites/default/files/2012/12/img_logo_blue.jpg'
   },
   Created_date: {
     type: Date,
@@ -27,6 +27,10 @@ var TaskSchema = new Schema({
       enum: ['pending', 'ongoing', 'completed']
     }],
     default: ['pending']
+  },
+  role: {
+    type: String,
+    default: 'main'
   }
 });
 

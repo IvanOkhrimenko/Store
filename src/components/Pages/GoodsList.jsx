@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
+import FilterLink from './FilterLink';
 import { Link } from 'react-router-dom';
-// import PostPreview from './PostPreview';
 import { apiPrefix } from '../../../server/config.json';
 import {
     goodsFetchData,
     goodsLoadMore,
     goodsSearch,
     goodsResetLimit,
+    goodsSetFilter
 } from '../../actions/goods';
-// import '../../css/loader.css';
+import './GoodList.scss';
 // import '../../css/goods.css';
 
 class GoodsList extends Component {
     componentDidMount() {
         if (this.props.goods.length === 0) {
             this.props.fetchData(`${apiPrefix}/tasks`);
-            console.log(this.props);
+
         }
     }
 
@@ -26,12 +27,26 @@ class GoodsList extends Component {
     }
 
     getVisibleGoods() {
-        const { goods, limit } = this.props;
-        const visibleGoods = [...goods];
-        // Cutting off only goods we need to render
-        visibleGoods.length = limit;
-        return visibleGoods;
+        const { goods, visibilityFilter } = this.props;
+        console.log('dsfewf', visibilityFilter);
+        const goodsArr = Object.values(goods);
+        switch (visibilityFilter) {
+            case 'SHOW_ALL':
+                return goodsArr;
+            case 'SHOW_MAIN':
+                return goodsArr.filter(a => a.role === 'main');
+            case 'SHOW_SECONDARY':
+                return goodsArr.filter(a => a.role === 'secondary');
+            default: return null;
+        }
     }
+    // getVisibleGoods() {
+    //     const { goods, limit } = this.props;
+    //     const visibleGoods = [...goods];
+    //     // Cutting off only goods we need to render
+    //     visibleGoods.length = limit;
+    //     return visibleGoods;
+    // }
 
     scrollToTop() {
         this.goodsSection.scroll({
@@ -46,8 +61,8 @@ class GoodsList extends Component {
             loadMore,
             limit,
             searchGoods,
+            setFilter, visibilityFilter
         } = this.props;
-
         // Variable for later checking if limit is bigger than actual number of goods
         const initialLength = goods.length;
         const visibleGoods = this.getVisibleGoods();
@@ -63,6 +78,33 @@ class GoodsList extends Component {
                             this.scrollToTop();
                         }}
                     />
+                </div>
+                <div class="filter-block">
+                    Show:
+						{' '}
+                    <FilterLink
+                        filter="SHOW_ALL"
+                        currentFilter={visibilityFilter}
+                        onClick={setFilter}
+                    >
+                        All
+						</FilterLink>
+                    {' '}
+                    <FilterLink
+                        filter="SHOW_MAIN"
+                        currentFilter={visibilityFilter}
+                        onClick={setFilter}
+                    >
+                        Main
+						</FilterLink>
+                    {' '}
+                    <FilterLink
+                        filter="SHOW_SECONDARY"
+                        currentFilter={visibilityFilter}
+                        onClick={setFilter}
+                    >
+                        Secondary
+						</FilterLink>
                 </div>
                 <main className="main-goods">
                     {
@@ -80,28 +122,29 @@ class GoodsList extends Component {
                             : null
                     }
 
-                    <section className='goods' ref={(section) => { this.goodsSection = section; }}>
-                        {
-
-                            visibleGoods.map((good, i) => (
-                                <div key={i} className='post'>
-                                    <div className="postList-content">
-                                        <div className='postList-text'>
-                                            <Link to={{
-                                                pathname: `/good/${i}/`
-                                            }}><h2>{good.name}</h2></Link>
-                                            <p className="post-description">{i}</p>
-                                        </div>
-                                        <div className="post-footer">
+                    <section className='product-section' ref={(section) => { this.goodsSection = section; }}>
+                        <div className='goods'>
+                            {
+                                visibleGoods.map((good, i) => (
+                                    <div key={i} className='product'>
+                                        <div className="product-content">
+                                            <div className='product-img'>
+                                                <img src={good.img} alt="" />
+                                            </div>
+                                            <div className="product-descript">
+                                                <Link to={{
+                                                    pathname: `/good/${i}/`
+                                                }}><p>{good.name}</p></Link>
+                                                <p className="post-description">{good.price}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
-
+                                ))}
+                        </div>
 
                         {/* If all goods were rendered, button will be removed */}
                         {
-                            initialLength > limit && initialLength > 10 ?
+                            initialLength > limit && initialLength > 8 ?
                                 <div className="load-more" onClick={(e) => {
                                     e.preventDefault();
                                     loadMore(30);
@@ -129,6 +172,7 @@ GoodsList.propTypes = {
     isLoading: PropTypes.bool,
     goods: PropTypes.array,
     limit: PropTypes.number,
+    visibilityFilter: PropTypes.string,
 };
 
 // Posts being filtered before passing to props
@@ -138,7 +182,7 @@ const mapStateToProps = state => ({
     hasErrored: state.goodsState.hasErrored,
     isLoading: state.goodsState.isLoading,
     limit: state.goodsState.limit,
-
+    visibilityFilter: state.goodsState.visibilityFilter,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -146,6 +190,8 @@ const mapDispatchToProps = dispatch => ({
     loadMore: limit => dispatch(goodsLoadMore(limit)),
     resetLimit: () => dispatch(goodsResetLimit()),
     searchGoods: searchFilter => dispatch(goodsSearch(searchFilter)),
+    setFilter: filter => dispatch(goodsSetFilter(filter)),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(GoodsList);
