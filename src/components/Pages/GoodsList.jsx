@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import FilterLink from './FilterLink';
 import { Link } from 'react-router-dom';
+import ScrollToTop from 'react-scroll-up';
 import { apiPrefix } from '../../../server/config.json';
 import {
     goodsFetchData,
@@ -18,7 +19,6 @@ class GoodsList extends Component {
     componentDidMount() {
         if (this.props.goods.length === 0) {
             this.props.fetchData(`${apiPrefix}/tasks`);
-
         }
     }
 
@@ -27,12 +27,15 @@ class GoodsList extends Component {
     }
 
     getVisibleGoods() {
-        const { goods, visibilityFilter } = this.props;
-        console.log('dsfewf', visibilityFilter);
+        const { goods, visibilityFilter, limit } = this.props;
         const goodsArr = Object.values(goods);
+        const goodsArrMainSec = goodsArr;
+        console.log('dsfewf', goodsArrMainSec);
+        // 
         switch (visibilityFilter) {
             case 'SHOW_ALL':
-                return goodsArr;
+                goodsArrMainSec.length = limit;
+                return goodsArrMainSec;
             case 'SHOW_MAIN':
                 return goodsArr.filter(a => a.role === 'main');
             case 'SHOW_SECONDARY':
@@ -49,8 +52,9 @@ class GoodsList extends Component {
     // }
 
     scrollToTop() {
+        console.log(this.goodsSection);
         this.goodsSection.scroll({
-            top: 0,
+            top: -50,
             behavior: 'smooth',
         });
     }
@@ -60,7 +64,6 @@ class GoodsList extends Component {
             goods,
             loadMore,
             limit,
-            searchGoods,
             setFilter, visibilityFilter
         } = this.props;
         // Variable for later checking if limit is bigger than actual number of goods
@@ -69,7 +72,7 @@ class GoodsList extends Component {
 
         return (
             <div>
-                <div className="search-bar">
+                {/* <div className="search-bar">
                     <input type="text"
                         placeholder="Type here to search"
                         ref={(input) => { this.searchInput = input; }}
@@ -78,8 +81,8 @@ class GoodsList extends Component {
                             this.scrollToTop();
                         }}
                     />
-                </div>
-                <div class="filter-block">
+                </div> */}
+                <div className="filter-block" ref={(section) => { this.goodsSection = section; }}>
                     Show:
 						{' '}
                     <FilterLink
@@ -122,7 +125,7 @@ class GoodsList extends Component {
                             : null
                     }
 
-                    <section className='product-section' ref={(section) => { this.goodsSection = section; }}>
+                    <section className='product-section' >
                         <div className='goods'>
                             {
                                 visibleGoods.map((good, i) => (
@@ -147,14 +150,13 @@ class GoodsList extends Component {
                             initialLength > limit && initialLength > 8 ?
                                 <div className="load-more" onClick={(e) => {
                                     e.preventDefault();
-                                    loadMore(30);
+                                    loadMore(8);
                                 }}>Load more</div>
                                 :
-                                <div className="load-more" onClick={(e) => {
-                                    e.preventDefault();
-                                    this.scrollToTop();
-                                }}>Back To Top
-                </div>
+                                <ScrollToTop showUnder={160}>
+                                    <div className="load-more">Back To Top</div>
+                                </ScrollToTop>
+
                         }
                     </section>
                 </main>
@@ -177,7 +179,7 @@ GoodsList.propTypes = {
 
 // Posts being filtered before passing to props
 const mapStateToProps = state => ({
-    goods: Object.values(state.goodsState.goods)
+    goods: state.goodsState.goods
         .filter(good => good.name.toLowerCase().includes(state.goodsState.searchFilter.toLowerCase())),
     hasErrored: state.goodsState.hasErrored,
     isLoading: state.goodsState.isLoading,
