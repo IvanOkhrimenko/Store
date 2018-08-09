@@ -10,8 +10,10 @@ import {
     goodsLoadMore,
     goodsSearch,
     goodsResetLimit,
-    goodsSetFilter
+    goodsSetFilter,
+
 } from '../../actions/goods';
+import { addToCart, syncQuantity } from '../../actions/cartAction';
 import './GoodList.scss';
 // import '../../css/goods.css';
 
@@ -51,6 +53,27 @@ class GoodsList extends Component {
     //     return visibleGoods;
     // }
 
+    _addToCart(productName, price, quantity) {
+        const { addToCart } = this.props;
+        const itemDetails = {
+            item: productName,
+            quantity: quantity,
+            price: price,
+
+        }
+        this.setState({
+            quantity: 1
+        })
+
+        const syncCatalog = {
+            item: productName,
+            quantity: quantity
+        }
+
+        addToCart(itemDetails);
+        syncQuantity(syncCatalog);
+    };
+
     scrollToTop() {
         console.log(this.goodsSection);
         this.goodsSection.scroll({
@@ -64,11 +87,14 @@ class GoodsList extends Component {
             goods,
             loadMore,
             limit,
-            setFilter, visibilityFilter
+            setFilter,
+            visibilityFilter,
+            addToCart,
         } = this.props;
         // Variable for later checking if limit is bigger than actual number of goods
         const initialLength = goods.length;
         const visibleGoods = this.getVisibleGoods();
+        console.log(visibleGoods);
 
         return (
             <div>
@@ -139,6 +165,7 @@ class GoodsList extends Component {
                                                     pathname: `/good/${i}/`
                                                 }}><p>{good.name}</p></Link>
                                                 <p className="post-description">{good.price}</p>
+                                                <input type="button" value="Add to cart" onClick={() => { this._addToCart(good.name, good.price, 1) }} />
                                             </div>
                                         </div>
                                     </div>
@@ -193,6 +220,8 @@ const mapDispatchToProps = dispatch => ({
     resetLimit: () => dispatch(goodsResetLimit()),
     searchGoods: searchFilter => dispatch(goodsSearch(searchFilter)),
     setFilter: filter => dispatch(goodsSetFilter(filter)),
+    addToCart: itemDetails => dispatch(addToCart(itemDetails)),
+    syncQuantity: syncCatalog => dispatch(syncQuantity(syncCatalog)),
 
 });
 

@@ -16,8 +16,6 @@ const goodsReducer = function reducer(state = initialState, action) {
                 ...state,
                 hasErrored: action.hasErrored,
             };
-
-
         case types.GOODS_FETCH_DATA_REQUEST:
             return {
                 ...state,
@@ -58,6 +56,13 @@ const goodsReducer = function reducer(state = initialState, action) {
                 ...state,
                 visibilityFilter: action.visibilityFilter,
             };
+        case types.SYNC_QUANTITY: {
+            const { quantity, item } = action.payload;
+            state.goods.map(thisItem => thisItem.name === item ? thisItem.quantity = quantity : null)
+            return {
+                ...state
+            }
+        }
         default:
             return state;
     }

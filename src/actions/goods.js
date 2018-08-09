@@ -41,6 +41,7 @@ export function goodsPostData(url, good) {
             });
     };
 }
+
 export function goodsFetchData(url) {
     return (dispatch) => {
         dispatch(goodsIsLoading(true));

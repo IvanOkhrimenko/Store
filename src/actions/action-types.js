@@ -6,6 +6,7 @@ export const GOODS_LOAD_MORE = 'GOODS_LOAD_MORE';
 export const GOODS_RESET_LIMIT = 'GOODS_RESET_LIMIT';
 export const FIND_GOODS = 'FIND_GOODS';
 export const GOODS_SET_VISIBILITY_FILTER = 'GOODS_SET_VISIBILITY_FILTER';
+export const SYNC_QUANTITY = 'SYNC_QUANTITY';
 
 
 // NavBar menu
@@ -13,3 +14,8 @@ export const NAVBAR_TOGGLE_MENU = 'NAVBAR_TOGGLE_MENU';
 //ADMIN
 export const CREATE_GOOD_SUCCESS = 'CREATE_GOOD_SUCCESS';
 
+//Cart
+export const ADD_TO_CART = 'ADD_TO_CART';
+export const UPDATE_CART = 'UPDATE_CART';
+export const REMOVE_ITEM = 'REMOVE_ITEM';
+export const UPDATE_QUANTITY = 'UPDATE_QUANTITY';

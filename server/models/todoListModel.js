@@ -10,7 +10,7 @@ var TaskSchema = new Schema({
   },
   price: {
     type: Number,
-    default: 0
+    default: 1
   },
   img: {
     type: String,
@@ -27,6 +27,10 @@ var TaskSchema = new Schema({
       enum: ['pending', 'ongoing', 'completed']
     }],
     default: ['pending']
+  },
+  quantity: {
+    type: Number,
+    default: '1'
   },
   role: {
     type: String,

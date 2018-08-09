@@ -19,6 +19,7 @@ class NavBar extends Component {
 						<li className="drop"><Link to="/delivery">Доставка</Link></li>
 						<li className="drop"><Link to="/promotions">Акции</Link></li>
 						<li className="drop"><Link to="/contacts">Контакты</Link></li>
+						<li className="drop"><Link to="/cart">Cart</Link></li>
 						<div className="search-bar">
 							<input type="text"
 								placeholder="Type here to search"
