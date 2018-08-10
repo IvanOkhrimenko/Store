@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form'
+import NumericInput from 'react-numeric-input';
+import { removeItem, updateCart } from '../../actions/cartAction';
 
-import { removeItem } from '../../actions/cartAction';
-import { syncQuantity } from '../../actions/goods';
 import './Сart.scss';
 
 class Cart extends Component {
@@ -11,10 +12,14 @@ class Cart extends Component {
     //     this.props.dispatch(removeItem(item));
     //     this.props.dispatch(syncQuantity({ "item": item, "quantity": 0 }));
     // }
-
+    handleChange(e) {
+        const { field, value } = e.target;
+        console.log(value);
+        // this.setState({ [field]: value });
+    }
     render() {
 
-        const { itemsList } = this.props;
+        const { itemsList, removeFromCart, updateValue } = this.props;
         let subTotals = [];
         if (itemsList.length !== 0) {
             itemsList.map((item) => {
@@ -63,8 +68,13 @@ class Cart extends Component {
                                 <div className="cart-item-title">{item.brand}<br />{item.item}</div>
                                 <div className="cart-quantity-title">{item.quantity}</div>
                                 <div className="cart-total-title">{item.quantity * item.price}</div>
-                                {/* <div className="remove-item" onClick={() => { this._removeFromCart(item.item) }}>x</div> */}
+
+                                <div className="remove-item" onClick={() => { removeFromCart(item.item) }}>x</div>
+                                <div>
+                                    <input type="number" class='input-number' min="1" step="1" value={item.quantity} onChange={(e) => { updateValue(item.item, e.target.value) }} />
+                                </div>
                             </div>
+
                         ))}
                     </div>
                 ) : (
@@ -80,8 +90,12 @@ class Cart extends Component {
 
 const mapStateToProps = state => ({
     itemsList: Object.values(state.cartState),
+
 });
+const mapDispatchToProps = dispatch => ({
+    removeFromCart: item => dispatch(removeItem(item)),
+    updateValue: (name, value) => dispatch(updateCart(name, value)),
+})
 
 
-
-export default connect(mapStateToProps, null)(Cart);
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

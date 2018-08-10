@@ -3,24 +3,27 @@ import { Field, reduxForm } from 'redux-form'
 import submit from './submit'
 
 const renderField = ({ input, label, type, meta: { touched, error } }) =>
-    <div>
+
+    < div >
         <label>
-            {label}
+            {console.log(input)}
         </label>
         <div>
             <input {...input} placeholder={label} type={type} />
-            {touched &&
+            {
+                touched &&
                 error &&
                 <span>
                     {error}
                 </span>}
         </div>
-    </div>
+    </div >
 
 const SubmitValidationForm = props => {
     const { error, handleSubmit, pristine, reset, submitting } = props
     return (
         <form onSubmit={handleSubmit(submit)}>
+
             <Field
                 name="name"
                 type="text"
@@ -35,7 +38,7 @@ const SubmitValidationForm = props => {
             />
             <Field
                 name="img"
-                type="text"
+                type="number"
                 component={renderField}
                 label="Image"
             />

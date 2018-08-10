@@ -22,10 +22,13 @@ var userSchema = new Schema({
         Required: true,
     },
     password: {
-
         type: String,
         Required: true,
-
+    },
+    role: {
+        type: String,
+        Required: true,
+        default: 'user'
     }
 });
 module.exports = mongoose.model('Users', userSchema);

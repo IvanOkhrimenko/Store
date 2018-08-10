@@ -1,17 +1,17 @@
 
 import * as types from './action-types';
 export function addToCart(payload) {
-    
+
     return {
         type: types.ADD_TO_CART,
         payload: payload
     }
 }
 
-export function updateCart(payload) {
+export function updateCart(name, value) {
     return {
         type: types.UPDATE_CART,
-        payload: payload
+        payload: { name, value }
     }
 }
 export function syncQuantity(payload) {

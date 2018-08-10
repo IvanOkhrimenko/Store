@@ -7,6 +7,7 @@ import store from './store/store';
 import './styles/style.scss';
 
 
+
 const Routes = (
     <BrowserRouter>
         <App />
@@ -16,6 +17,7 @@ const Routes = (
 const main = document.getElementById('root');
 render(
     <Provider store={store}>
+    
         {Routes}
     </Provider>,
     main,
