@@ -17,7 +17,6 @@ const Routes = (
 const main = document.getElementById('root');
 render(
     <Provider store={store}>
-    
         {Routes}
     </Provider>,
     main,

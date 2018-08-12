@@ -9,8 +9,9 @@ import Delivery from './Pages/Delivery';
 import Promotions from './Pages/Promotions';
 import Contacts from './Pages/Contacts';
 import GoodPage from './Pages/GoodPage';
-import Admin from './Pages/Admin';
+import Admin from './Pages/Admin/Admin';
 import Cart from './Pages/Cart';
+import ChangeProduct from './Pages/Admin/ChangeProduct';
 
 /* Global Styles */
 
@@ -30,6 +31,8 @@ export default class App extends Component {
 						<Route exact path="/promotions" component={Promotions} />
 						<Route exact path="/contacts" component={Contacts} />
 						<Route exact path="/admin" component={Admin} />
+						<Route exact path="/admin/products" component={Admin} />
+						<Route exact path="/admin/product/:id" component={ChangeProduct} />
 						<Route exact path="/cart" component={Cart} />
 					</Switch>
 				</div>

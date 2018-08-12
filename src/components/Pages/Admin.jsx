@@ -38,7 +38,7 @@ const SubmitValidationForm = props => {
             />
             <Field
                 name="img"
-                type="number"
+                type="text"
                 component={renderField}
                 label="Image"
             />

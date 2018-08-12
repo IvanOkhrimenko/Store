@@ -11,7 +11,6 @@ import {
     goodsSearch,
     goodsResetLimit,
     goodsSetFilter,
-
 } from '../../actions/goods';
 import { addToCart, syncQuantity } from '../../actions/cartAction';
 import './GoodList.scss';

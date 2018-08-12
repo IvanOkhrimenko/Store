@@ -28,12 +28,22 @@ export function createGoodSuccess(good) {
     };
 }
 
+export function goodsChangeData(url, values) {
+    return (dispatch) => {
+        return axios.put(url, values)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
+}
+
 export function goodsPostData(url, good) {
     return (dispatch) => {
         return axios.post(url, good)
             .then(response => {
-                // Dispatch a synchronous action
-                // to handle data
                 dispatch(createBookSuccess(response.data))
             })
             .catch(error => {
@@ -45,7 +55,6 @@ export function goodsPostData(url, good) {
 export function goodsFetchData(url) {
     return (dispatch) => {
         dispatch(goodsIsLoading(true));
-
         axios.get(url)
             .then((response) => {
                 if (response.status !== 200) {
