@@ -15,6 +15,26 @@ export function goodsIsLoading(bool) {
     };
 }
 
+export function operationHasErrored(bool) {
+    return {
+        type: types.OPERATION_DATA_REJECT,
+        operation_HasErrored: bool,
+    };
+}
+export function operationIsLoading(bool) { // for DELETE,PUT requests
+    return {
+        type: types.OPERATION_DATA_REQUEST,
+        operation_isLoading: bool,
+    };
+}
+
+export function operationChangeRequestsIsSuccess(element) {
+    return {
+        type: types.OPERATION_CHANGE_DATA_SUCCESS,
+        element
+    };
+}
+
 export function goodsFetchDataSuccess(goods) {
     return {
         type: types.GOODS_FETCH_DATA_SUCCESS,
@@ -27,31 +47,6 @@ export function createGoodSuccess(good) {
         good,
     };
 }
-
-export function goodsChangeData(url, values) {
-    return (dispatch) => {
-        return axios.put(url, values)
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    };
-}
-
-export function goodsPostData(url, good) {
-    return (dispatch) => {
-        return axios.post(url, good)
-            .then(response => {
-                dispatch(createBookSuccess(response.data))
-            })
-            .catch(error => {
-                throw (error);
-            });
-    };
-}
-
 export function goodsFetchData(url) {
     return (dispatch) => {
         dispatch(goodsIsLoading(true));
@@ -60,9 +55,8 @@ export function goodsFetchData(url) {
                 if (response.status !== 200) {
                     throw Error(response.statusText);
                 }
-
                 dispatch(goodsIsLoading(false));
-
+                console.log(response.data)
                 return response.data;
             })
             .then(goods => dispatch(goodsFetchDataSuccess(goods)))

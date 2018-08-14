@@ -8,10 +8,11 @@ export function addToCart(payload) {
     }
 }
 
-export function updateCart(name, value) {
+
+export function updateCart(name, value, id) {
     return {
         type: types.UPDATE_CART,
-        payload: { name, value }
+        payload: { name, value, id }
     }
 }
 export function syncQuantity(payload) {
@@ -20,10 +21,10 @@ export function syncQuantity(payload) {
         payload: payload
     }
 }
-export function removeItem(payload) {
+export function removeItem(id) {
     return {
         type: types.REMOVE_ITEM,
-        payload: payload
+        payload: { id }
     }
 }
 

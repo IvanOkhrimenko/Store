@@ -6,7 +6,8 @@ import { apiPrefix } from '../../../../server/config.json';
 import AdminNav from './AdminNav';
 import './Admin.scss';
 import axios from 'axios';
-import { goodsChangeData, goodsSearch, goodsFetchData, } from '../../../actions/goods';
+import { goodsFetchData, } from '../../../actions/goods';
+import { goodsChangeData, goodsSearch, deleteGood } from '../../../actions/adminAction';
 
 class Admin extends Component {
 
@@ -15,9 +16,14 @@ class Admin extends Component {
             this.props.fetchData(`${apiPrefix}/tasks`);
         }
     }
+    onDelete = id => {
+        console.log(id);
+        const { deleteProduct } = this.props;
+        deleteProduct(`${apiPrefix}/tasks/${id}`, id);
+    }
     render() {
         const { goods } = this.props;
-        console.log(this.state);
+
         return (
             <div >
                 {
@@ -35,6 +41,10 @@ class Admin extends Component {
                         : null
                 }
                 <AdminNav />
+                <Link to={{
+                    pathname: `/admin/addproduct/`
+                }}><p>Add product</p></Link>
+
                 <div className='admin'>
                     <table className='admin-product'>
                         <thead>
@@ -51,17 +61,16 @@ class Admin extends Component {
                         <tbody>
                             {
                                 goods.map((good, i) => (
-                                    <tr key={i} >
+
+                                    < tr key={i} >
                                         <th className='admin-product-img'>
                                             <img src={good.img} alt="" />
                                         </th>
                                         <th className="admin-product-descript">
                                             <Link to={{
-                                                pathname: `/good/${i}/`,
+                                                pathname: `/good/${good._id}/`,
                                                 state: { name: good.name }
                                             }}>
-
-
                                                 <p> {good.name}</p></Link>
                                         </th>
                                         <th className='admin-product-price'>
@@ -82,8 +91,9 @@ class Admin extends Component {
                                                 }
                                             }}><p>CHANGE</p></Link>
                                         </th>
+
                                         <th className='admin-product-delete'>
-                                            <button>delete</button>
+                                            <input type="button" value="Delete" onClick={() => this.onDelete(good._id)} />
                                         </th>
                                     </tr>
 
@@ -107,7 +117,7 @@ Admin.propTypes = {
 
 // Posts being filtered before passing to props
 const mapStateToProps = state => ({
-    goods: state.goodsState.goods
+    goods: Object.values(state.goodsState.goods)
         .filter(good => good.name.toLowerCase().includes(state.goodsState.searchFilter.toLowerCase())),
     hasErrored: state.goodsState.hasErrored,
     isLoading: state.goodsState.isLoading,
@@ -118,6 +128,7 @@ const mapDispatchToProps = dispatch => ({
     changeProduct: (url, values) => dispatch(goodsChangeData(url, values)),
     searchGoods: searchFilter => dispatch(goodsSearch(searchFilter)),
     fetchData: url => dispatch(goodsFetchData(url)),
+    deleteProduct: id => dispatch(deleteGood(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Admin);

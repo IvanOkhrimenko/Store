@@ -12,6 +12,7 @@ import GoodPage from './Pages/GoodPage';
 import Admin from './Pages/Admin/Admin';
 import Cart from './Pages/Cart';
 import ChangeProduct from './Pages/Admin/ChangeProduct';
+import AddProduct from './Pages/Admin/AddProduct';
 
 /* Global Styles */
 
@@ -33,6 +34,7 @@ export default class App extends Component {
 						<Route exact path="/admin" component={Admin} />
 						<Route exact path="/admin/products" component={Admin} />
 						<Route exact path="/admin/product/:id" component={ChangeProduct} />
+						<Route exact path="/admin/addproduct" component={AddProduct} />
 						<Route exact path="/cart" component={Cart} />
 					</Switch>
 				</div>

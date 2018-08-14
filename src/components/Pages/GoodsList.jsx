@@ -52,12 +52,13 @@ class GoodsList extends Component {
     //     return visibleGoods;
     // }
 
-    _addToCart(productName, price, quantity) {
+    _addToCart(productName, price, quantity, id) {
         const { addToCart } = this.props;
         const itemDetails = {
             item: productName,
             quantity: quantity,
             price: price,
+            id: id
 
         }
         this.setState({
@@ -161,10 +162,10 @@ class GoodsList extends Component {
                                             </div>
                                             <div className="product-descript">
                                                 <Link to={{
-                                                    pathname: `/good/${i}/`
+                                                    pathname: `/good/${good._id}/`
                                                 }}><p>{good.name}</p></Link>
                                                 <p className="post-description">{good.price}</p>
-                                                <input type="button" value="Add to cart" onClick={() => { this._addToCart(good.name, good.price, 1) }} />
+                                                <input type="button" value="Add to cart" onClick={() => { this._addToCart(good.name, good.price, 1, good._id) }} />
                                             </div>
                                         </div>
                                     </div>
@@ -205,7 +206,7 @@ GoodsList.propTypes = {
 
 // Posts being filtered before passing to props
 const mapStateToProps = state => ({
-    goods: state.goodsState.goods
+    goods: Object.values(state.goodsState.goods)
         .filter(good => good.name.toLowerCase().includes(state.goodsState.searchFilter.toLowerCase())),
     hasErrored: state.goodsState.hasErrored,
     isLoading: state.goodsState.isLoading,

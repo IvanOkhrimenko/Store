@@ -1,0 +1,1 @@
+export const EDITABLE_FIELDS = ['name', 'price', 'img', 'role'];

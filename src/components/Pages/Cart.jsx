@@ -13,7 +13,7 @@ class Cart extends Component {
     //     this.props.dispatch(syncQuantity({ "item": item, "quantity": 0 }));
     // }
     handleChange(e) {
-        const { field, value } = e.target;
+        const { value } = e.target;
         console.log(value);
         // this.setState({ [field]: value });
     }
@@ -64,14 +64,15 @@ class Cart extends Component {
                         </div>
 
                         {itemsList && itemsList.map((item, i) => (
+                            console.log(item),
                             <div className="item-row" key={i}>
                                 <div className="cart-item-title">{item.brand}<br />{item.item}</div>
                                 <div className="cart-quantity-title">{item.quantity}</div>
                                 <div className="cart-total-title">{item.quantity * item.price}</div>
 
-                                <div className="remove-item" onClick={() => { removeFromCart(item.item) }}>x</div>
+                                <div className="remove-item" onClick={() => { removeFromCart(item.id) }}>x</div>
                                 <div>
-                                    <input type="number" class='input-number' min="1" step="1" value={item.quantity} onChange={(e) => { updateValue(item.item, e.target.value) }} />
+                                    <input type="number" class='input-number' min="1" step="1" value={item.quantity} onChange={(e) => { updateValue(item.item, e.target.value, item.id) }} />
                                 </div>
                             </div>
 
@@ -94,7 +95,7 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
     removeFromCart: item => dispatch(removeItem(item)),
-    updateValue: (name, value) => dispatch(updateCart(name, value)),
+    updateValue: (name, value, id) => dispatch(updateCart(name, value, id)),
 })
 
 
