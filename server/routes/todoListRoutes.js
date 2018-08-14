@@ -1,7 +1,9 @@
 'use strict';
 
-module.exports = function(app) {
+module.exports = function (app) {
+	var userList = require('../controllers/usersListController');
 	var todoList = require('../controllers/todoListController');
+
 	// todoList Routes
 	app.route('/tasks')
 		.get(todoList.list_all_tasks)
@@ -11,4 +13,14 @@ module.exports = function(app) {
 		.get(todoList.read_a_task)
 		.put(todoList.update_a_task)
 		.delete(todoList.delete_a_task);
+
+	//userList Routes
+	app.route('/users')
+		.get(userList.list_all_users)
+		.post(userList.create_a_user);
+
+	app.route('/users/:userId')
+		.get(userList.read_a_user)
+		.put(userList.update_a_user)
+		.delete(userList.delete_a_user);
 };

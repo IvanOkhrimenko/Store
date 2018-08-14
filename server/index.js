@@ -4,6 +4,7 @@ var express = require('express'),
     port = process.env.PORT || 3000,
     mongoose = require('mongoose'),
     Task = require('./models/todoListModel'),
+    User = require('./models/usersListModel'),
     bodyParser = require('body-parser');
 
 mongoose.Promise = global.Promise;
