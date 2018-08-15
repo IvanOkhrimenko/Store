@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { apiPrefix } from '../../../../server/config.json';
-import { EDITABLE_PRODUCT_FIELDS } from '../../../config';
+import { EDITABLE_USERS_FIELDS } from '../../../config';
 
-import { usersFetchData,userAdd } from '../../../actions/UserActions';
+import { usersFetchData, userAdd } from '../../../actions/UserActions';
 
 
 class AddUser extends Component {
@@ -12,7 +12,7 @@ class AddUser extends Component {
     componentDidMount() {
         console.log(this.props)
         if (this.props.users.length === 0) {
-            this.props.fetchData(`${apiPrefix}/tasks`);
+            this.props.fetchData(`${apiPrefix}/users`);
         }
     }
     handleSubmit(e) {
@@ -20,16 +20,14 @@ class AddUser extends Component {
         e.preventDefault();
         console.log(e.target.elements);
 
-
-
         const values = {
-
             name: e.target.elements[0].value,
-            price: e.target.elements[1].value,
-            img: e.target.elements[2].value,
-            role: e.target.elements[3].value
+            last_name: e.target.elements[1].value,
+            email: e.target.elements[2].value,
+            password: e.target.elements[3].value,
+            role: e.target.elements[4].value
         }
-        userAdd(`${apiPrefix}/tasks/`, values);
+        userAdd(`${apiPrefix}/users/`, values);
         console.log();
         Object.values(values).map((key, i) => {
             return e.target.elements[i].value = ''
@@ -39,7 +37,7 @@ class AddUser extends Component {
         return (
             <div className='main-addproduct'>
                 <form className='form-addproduct' onSubmit={this.handleSubmit.bind(this)}>
-                    {EDITABLE_PRODUCT_FIELDS.map((key, i) => {
+                    {EDITABLE_USERS_FIELDS.map((key, i) => {
                         const props = {
                             name: key,
                             placeholder: key
