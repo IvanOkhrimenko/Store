@@ -5,6 +5,8 @@ import storage from 'redux-persist/lib/storage'
 //	Reducers
 import goodsReducer from './goods';
 import cartReducer from './cart';
+import adminReducer from './admin';
+import usersReducer from './users';
 // const rootPersistConfig = {
 //     key: 'root',
 //     storage: storage,
@@ -18,8 +20,9 @@ import cartReducer from './cart';
 //	Combine reducers
 const reducers = combineReducers({
     goodsState: goodsReducer,
-    cartState:  cartReducer,
-    form: formReducer
+    cartState: cartReducer,
+    adminState: adminReducer,
+    usersState: usersReducer
 });
 
 export default reducers;

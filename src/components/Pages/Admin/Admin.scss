@@ -1,12 +1,12 @@
 .admin{
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 .admin-product{
     border: 1px solid black;
     border-collapse: collapse;
-    width: 90%;
+    width: 60%;
 }
 
 .admin-product th{
@@ -26,4 +26,23 @@
 }
 .admin-product-img img{
     height: 100%;
+}
+.main-addproduct{
+    border: 1px solid red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 20%;
+}
+.main-addproduct .form-addproduct{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+}
+.main-addproduct .form-addproduct input{
+width: 90%;
+height: 30px;
+margin: 15px;
 }

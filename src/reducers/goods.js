@@ -6,6 +6,8 @@ const initialState = {
     operation_HasErrored: false,
     hasErrored: false,
     isLoading: false,
+    addForm: false,
+    changeForm: false,
     limit: 8,
     searchFilter: '',
     visibilityFilter: 'SHOW_ALL',
@@ -33,12 +35,6 @@ const goodsReducer = function reducer(state = initialState, action) {
                 }, {})
             };
 
-
-        case types.CREATE_GOOD_SUCCESS:
-            return [
-                ...state,
-                Object.assign({}, action.good)
-            ];
         case types.GOODS_LOAD_MORE:
             return {
                 ...state,
@@ -56,17 +52,6 @@ const goodsReducer = function reducer(state = initialState, action) {
                 ...state,
                 searchFilter: action.searchFilter,
             };
-        case types.CHANGE_INPUT:
-            return {
-                ...state,
-                goods: {
-                    ...state.goods,
-                    [action.payload.id]: {
-                        ...state.goods[action.payload.id],
-                        [action.payload.inputName]: action.payload.value,
-                    }
-                }
-            }
 
         case types.GOODS_SET_VISIBILITY_FILTER:
             return {
@@ -80,44 +65,59 @@ const goodsReducer = function reducer(state = initialState, action) {
                 ...state
             }
         }
-        case types.OPERATION_DATA_REJECT:
+
+
+
+        case types.PRODUCT_INPUT_CHANGE:
             return {
                 ...state,
-                operation_HasErrored: action.operation_HasErrored,
+                goods: {
+                    ...state.goods,
+                    [action.payload.id]: {
+                        ...state.goods[action.payload.id],
+                        [action.payload.inputName]: action.payload.value,
+                    }
+                }
+            }
+
+        case types.PRODUCT_OPERATION_DATA_REJECT:
+            return {
+                ...state,
+                product_operation_HasErrored: action.product_operation_HasErrored,
             };
-        case types.OPERATION_DATA_REQUEST:
+        case types.PRODUCT_OPERATION_DATA_REQUEST:
             return {
                 ...state,
-                operation_isLoading: action.operation_isLoading,
+                product_operation_isLoading: action.product_operation_isLoading,
             };
 
-        case types.OPERATION_CHANGE_DATA_SUCCESS:
-            console.log(action.payload)
+        case types.PRODUCT_OPERATION_CHANGE_DATA_SUCCESS:
+            console.log('PRODUCT', action.payload);
             return {
                 ...state,
                 [action.payload.id]: {
                     ...state[action.payload.id],
-                    quantity: action.payload.quantity,
+                    name: action.payload.name,
                     price: action.payload.price,
                     img: action.payload.img,
                     role: action.payload.role
                 }
-
             }
-        case types.OPERATION_DELETE_DATA_SUCCESS:
-            console.log(state.goods, action.payload.id)
+        case types.PRODUCT_OPERATION_DELETE_DATA_SUCCESS:
+
             const { goods: { [action.payload.id]: deletedGood, ...restGoods }, ...rest } = state;
             return {
                 ...rest,
                 goods: restGoods
             }
-        case types.OPERATION_СREATE_DATA_SUCCESS:
-            console.log({ [action.payload._id]: action.payload });
+        case types.PRODUCT_OPERATION_СREATE_DATA_SUCCESS:
+
             return {
                 ...state,
                 goods: {
-                    ...state.goods,
-                    [action.payload._id]: action.payload
+                    [action.payload._id]: action.payload,
+                    ...state.goods
+
                 }
             }
         // [action.payload.id]: {
@@ -130,20 +130,26 @@ const goodsReducer = function reducer(state = initialState, action) {
 
         // }
 
+        // case types.VISIBLE_OPERATION_FORM:
+        //     console.log(action.payload.changeForm)
+        //     return {
+        //         ...state,
+        //         addForm: action.payload.addForm.addForm,
+        //         changeForm: {changeForm:action.payload.changeForm.changeForm, id:action.payload.changeForm.id}
 
-        // const { [action.element._id]: deletedItem, ...rest } = state;
-        // return rest;
-        // // return {
-        // //     ...state,
-        // //     goods: action.goods.reverse().reduce(function (result, item, index, array) {
-        // //         result[item._id] = item;
-        // //         return result;
-        // //     }, {})
-        // };
+        //     };
+        // // const { [action.element._id]: deletedItem, ...rest } = state;
+        // // return rest;
+        // // // return {
+        // // //     ...state,
+        // // //     goods: action.goods.reverse().reduce(function (result, item, index, array) {
+        // // //         result[item._id] = item;
+        // // //         return result;
+        // // //     }, {})
+        // // };
         default:
             return state;
     }
 };
-
 export default goodsReducer;
 

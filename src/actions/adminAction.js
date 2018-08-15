@@ -1,91 +1,94 @@
 import axios from 'axios';
 import * as types from './action-types';
 
-export function operationHasErrored(bool) {
+export function product_operationHasErrored(bool) {
     return {
-        type: types.OPERATION_DATA_REJECT,
-        operation_HasErrored: bool,
+        type: types.PRODUCT_OPERATION_DATA_REJECT,
+        product_operation_HasErrored: bool,
     };
 }
-export function operationIsLoading(bool) { // for DELETE,PUT requests
+export function product_operationIsLoading(bool) { // for DELETE,PUT requests
     return {
-        type: types.OPERATION_DATA_REQUEST,
-        operation_isLoading: bool,
+        type: types.PRODUCT_OPERATION_DATA_REQUEST,
+        product_operation_isLoading: bool,
     };
 }
 
-export function operationChangeRequestsIsSuccess(element) {
+export function product_operationChangeRequestsIsSuccess(element) {
+    console.log('element', element)
     return {
-        type: types.OPERATION_CHANGE_DATA_SUCCESS,
-        element
+        type: types.PRODUCT_OPERATION_CHANGE_DATA_SUCCESS,
+        payload: element
     };
 }
-export function operationDeleteRequestsIsSuccess(payload) {
+export function product_operationDeleteRequestsIsSuccess(payload) {
     return {
-        type: types.OPERATION_DELETE_DATA_SUCCESS,
+        type: types.PRODUCT_OPERATION_DELETE_DATA_SUCCESS,
         payload
     };
 }
-export function operationCreateRequestsIsSuccess(payload) {
+export function product_operationCreateRequestsIsSuccess(payload) {
+
     return {
-        type: types.OPERATION_СREATE_DATA_SUCCESS,
+        type: types.PRODUCT_OPERATION_СREATE_DATA_SUCCESS,
         payload
     };
 }
 export function goodAdd(url, values) {
     return (dispatch) => {
-        dispatch(operationIsLoading(true));
+        dispatch(product_operationIsLoading(true));
         axios.post(url, values)
             .then((response) => {
                 if (response.status !== 200) {
                     throw Error(response.statusText);
                 }
-                dispatch(operationIsLoading(false));
+                dispatch(product_operationIsLoading(false));
                 console.log(response.data)
                 return response.data;
             })
-            .then((element) => dispatch(operationCreateRequestsIsSuccess(element)))
+            .then((element) => dispatch(product_operationCreateRequestsIsSuccess(element)))
             .catch(() => {
-                dispatch(operationIsLoading(false));
-                dispatch(operationHasErrored(true));
+                dispatch(product_operationIsLoading(false));
+                dispatch(product_operationHasErrored(true));
             });
     };
 }
 export function goodsChangeData(url, values) {
     return (dispatch) => {
-        dispatch(operationIsLoading(true));
+        dispatch(product_operationIsLoading(true));
         axios.put(url, values)
             .then((response) => {
                 if (response.status !== 200) {
                     throw Error(response.statusText);
                 }
-                dispatch(operationIsLoading(false));
+                dispatch(product_operationIsLoading(false));
                 console.log(response.data)
+                dispatch(product_operationChangeRequestsIsSuccess(response.data));
                 return response.data;
             })
-            .then((element) => dispatch(operationChangeRequestsIsSuccess(element)))
             .catch(() => {
-                dispatch(operationIsLoading(false));
-                dispatch(operationHasErrored(true));
+                dispatch(product_operationIsLoading(false));
+                dispatch(product_operationHasErrored(true));
             });
     };
 }
 export function deleteGood(url) {
     return (dispatch) => {
-        dispatch(operationIsLoading(true));
+        dispatch(product_operationIsLoading(true));
         axios.delete(url)
             .then((response) => {
                 if (response.status !== 200) {
                     throw Error(response.statusText);
                 }
-                dispatch(operationIsLoading(false));
+                dispatch(product_operationIsLoading(false));
                 console.log(response.data);
-                dispatch(operationDeleteRequestsIsSuccess(response.data));
+                dispatch(product_operationDeleteRequestsIsSuccess(response.data));
                 return response.data;
             })
             .catch(() => {
-                dispatch(operationIsLoading(false));
-                dispatch(operationHasErrored(true));
+                dispatch(product_operationIsLoading(false));
+                dispatch(product_operationIsLoading(false));
+                dispatch(product_operationHasErrored(true));
             });
     };
 }
@@ -98,9 +101,15 @@ export function deleteGood(url) {
 //             })
 //     }
 // }
-export function changeInput(inputName, value, id) {
+export function visibleProductOperationForm(addForm, changeForm) {
     return {
-        type: types.CHANGE_INPUT,
+        type: types.PRODUCT_VISIBLE_OPERATION_FORM,
+        payload: { addForm, changeForm }
+    };
+}
+export function productChangeInput(inputName, value, id) {
+    return {
+        type: types.PRODUCT_INPUT_CHANGE,
         payload: { inputName, value, id }
     }
 }

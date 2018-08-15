@@ -3,20 +3,20 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { apiPrefix } from '../../../../server/config.json';
 import { EDITABLE_PRODUCT_FIELDS } from '../../../config';
-import { goodAdd } from '../../../actions/adminAction';
-import { goodsFetchData } from '../../../actions/goods';
+
+import { usersFetchData,userAdd } from '../../../actions/UserActions';
 
 
-class AddProduct extends Component {
+class AddUser extends Component {
 
     componentDidMount() {
         console.log(this.props)
-        if (this.props.goods.length === 0) {
+        if (this.props.users.length === 0) {
             this.props.fetchData(`${apiPrefix}/tasks`);
         }
     }
     handleSubmit(e) {
-        const { goodAdd } = this.props;
+        const { userAdd } = this.props;
         e.preventDefault();
         console.log(e.target.elements);
 
@@ -29,7 +29,7 @@ class AddProduct extends Component {
             img: e.target.elements[2].value,
             role: e.target.elements[3].value
         }
-        goodAdd(`${apiPrefix}/tasks/`, values);
+        userAdd(`${apiPrefix}/tasks/`, values);
         console.log();
         Object.values(values).map((key, i) => {
             return e.target.elements[i].value = ''
@@ -60,26 +60,26 @@ class AddProduct extends Component {
     }
 }
 
-AddProduct.propTypes = {
+AddUser.propTypes = {
     // goodsPostData: PropTypes.func,
     fetchData: PropTypes.func,
     // searchGoods: PropTypes.func,
     hasErrored: PropTypes.bool,
     isLoading: PropTypes.bool,
-    goodAdd: PropTypes.func,
+    userAdd: PropTypes.func,
 };
 
 // Posts being filtered before passing to props
 const mapStateToProps = state => ({
-    goods: state.goodsState.goods,
-    hasErrored: state.goodsState.hasErrored,
-    isLoading: state.goodsState.isLoading,
+    users: state.usersState.users,
+    hasErrored: state.usersState.hasErrored,
+    isLoading: state.usersState.isLoading,
 });
 
 
 const mapDispatchToProps = dispatch => ({
-    fetchData: url => dispatch(goodsFetchData(url)),
-    goodAdd: (url, values) => dispatch(goodAdd(url, values))
+    fetchData: url => dispatch(usersFetchData(url)),
+    userAdd: (url, values) => dispatch(userAdd(url, values))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddProduct);
+export default connect(mapStateToProps, mapDispatchToProps)(AddUser);

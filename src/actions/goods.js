@@ -1,4 +1,5 @@
-import axios from 'axios';
+import axios from 
+'axios';
 import * as types from './action-types';
 
 export function goodsHasErrored(bool) {
@@ -15,25 +16,25 @@ export function goodsIsLoading(bool) {
     };
 }
 
-export function operationHasErrored(bool) {
-    return {
-        type: types.OPERATION_DATA_REJECT,
-        operation_HasErrored: bool,
-    };
-}
-export function operationIsLoading(bool) { // for DELETE,PUT requests
-    return {
-        type: types.OPERATION_DATA_REQUEST,
-        operation_isLoading: bool,
-    };
-}
+// export function operationHasErrored(bool) {
+//     return {
+//         type: types.OPERATION_DATA_REJECT,
+//         operation_HasErrored: bool,
+//     };
+// }
+// export function operationIsLoading(bool) { // for DELETE,PUT requests
+//     return {
+//         type: types.OPERATION_DATA_REQUEST,
+//         operation_isLoading: bool,
+//     };
+// }
 
-export function operationChangeRequestsIsSuccess(element) {
-    return {
-        type: types.OPERATION_CHANGE_DATA_SUCCESS,
-        element
-    };
-}
+// export function operationChangeRequestsIsSuccess(element) {
+//     return {
+//         type: types.OPERATION_CHANGE_DATA_SUCCESS,
+//         element
+//     };
+// }
 
 export function goodsFetchDataSuccess(goods) {
     return {
@@ -41,12 +42,12 @@ export function goodsFetchDataSuccess(goods) {
         goods,
     };
 }
-export function createGoodSuccess(good) {
-    return {
-        type: types.CREATE_GOOD_SUCCESS,
-        good,
-    };
-}
+// export function createGoodSuccess(good) {
+//     return {
+//         type: types.CREATE_GOOD_SUCCESS,
+//         good,
+//     };
+// }
 export function goodsFetchData(url) {
     return (dispatch) => {
         dispatch(goodsIsLoading(true));

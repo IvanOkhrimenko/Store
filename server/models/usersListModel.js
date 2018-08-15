@@ -20,10 +20,12 @@ var userSchema = new Schema({
     email: {
         type: String,
         Required: true,
+        default: 'email'
     },
     password: {
         type: String,
         Required: true,
+        default: 'password'
     },
     role: {
         type: String,
